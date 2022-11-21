@@ -4,7 +4,7 @@ import axios from "axios";
 import RecipeComp from '../components/RecipeComp'
 import { useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
- 
+import './Pages.css';
  
 
 const Modify = () => {
@@ -35,6 +35,7 @@ const Modify = () => {
       })
         .then((res) => {
           console.log("submitted", res)
+          alert("successfully edited")
           setIsSubmitting(!isSubmitting)
         })
         .catch((error) =>{
@@ -49,7 +50,7 @@ const Modify = () => {
    return (
     <>
       <RecipeComp item = {data}/>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} className = "form">
         <label htmlFor="titre">Titre</label>
         <input
           id="titre"
@@ -94,15 +95,7 @@ const Modify = () => {
           value={formik.values.tempsPreparation}
         />
 
-      {/* <label htmlFor="photo">Photo</label>
-        <input
-          id="photo"
-          name="photo"
-          type="file"
-          onChange={formik.handleChange}
-          value={formik.values.photo}
-        /> */}
-        <button type="submit">Submit</button>
+        <button type="submit" className='submit-btn'>Submit</button>
       </form>
      </>
    );

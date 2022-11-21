@@ -1,0 +1,58 @@
+
+.recipe-wrapper {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.form {
+    display: flex; 
+
+    flex-direction: column;
+    padding: 2%; 
+    justify-content: center;
+}
+
+.form input {
+    margin: 2%;
+    align-self: center;
+}
+
+.submit-btn {
+    background-color: blue;
+    color: white;
+    width: 20%;
+    align-self: center;
+}
+.add-recipe-btn {
+    background-color: rgb(46, 36, 75);
+    color: white;
+}
+
+.del-btn {
+    background-color: red;
+    color: white;
+    margin: 2%
+}
+
+.add-btn {
+    background-color: green;
+    color: white;
+    margin: 2%
+}
+
+.edit-btn {
+    background-color: rgb(128, 83, 0);
+    color: white;
+    margin: 2%
+}
+
+.list {
+    display: flex; 
+    justify-content: center;
+}
+
+.list p, .list h1 {
+    padding: 1%
+}
