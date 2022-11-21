@@ -51,8 +51,11 @@
 .list {
     display: flex; 
     justify-content: center;
+
 }
 
 .list p, .list h1 {
-    padding: 1%
+    padding:0px 12px;
+
+
 }

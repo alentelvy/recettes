@@ -155,9 +155,9 @@ return (
     {display.length > 0 &&
      display.map((item) => {
       return (
-        <div key = {item.id} >
-          <Link to={`/details/${item.id}`}>
-            <RecipeComp item = {item}/>
+        <div key = {item.id} className = "component">
+          <Link to={`/details/${item.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+            <RecipeComp item = {item} />
           </Link>
 
         <div> 
