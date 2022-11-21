@@ -6,7 +6,7 @@ axios.get('http://localhost:9000/api/recipes')
     // en cas de réussite de la requête
     console.log(response);
   })
-  .catch(function (error) {
+  .catch((error) => {
     // en cas d’échec de la requête
     console.log(error);
   })
