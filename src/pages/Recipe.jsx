@@ -97,8 +97,8 @@ console.log(filters)
   })
 
 
-console.log("res", result)
-setDisplay(result)
+  console.log("res", result)
+  setDisplay(result)
   setSearchTitle('');
   setSearchLevel('');
   setSearchPersons('')
@@ -107,21 +107,18 @@ setDisplay(result)
 
 
 
-
 const handleDelete = (id) => {
-
-  axios
-  .delete(`http://localhost:9000/api/recipe/${id}`, { data: { answer: "ok" } })
-  .then((res) => {
-    console.log("deleted", res)
-    setIsDelete(!isDelete)
-    setDel(!del)
-    setDisplay(data)
-  })
-  .catch((error) =>{
-     console.log(error)
-});
- 
+      axios
+      .delete(`http://localhost:9000/api/recipe/${id}`, { data: { answer: "ok" } })
+      .then((res) => {
+        console.log("deleted", res)
+        setIsDelete(!isDelete)
+        setDel(!del)
+        setDisplay(data)
+      })
+      .catch((error) =>{
+        console.log(error)
+    });
 }
 
 
@@ -135,7 +132,17 @@ return (
         <input type="text" name="searchTitle"  value = {searchTitle} onChange={event => setSearchTitle(event.target.value)} />
 
         <label htmlFor="searchLevel">Search by level</label>
-        <input type="text" name="searchLevel" value = {searchLevel} onChange={event => setSearchLevel(event.target.value)} />
+        <div name="searchLevel" id="niveau"> 
+
+          <label htmlFor="jedi">Jedi</label>
+          <input id="jedi" name="niveau" type="radio" onChange={event => setSearchLevel(event.target.value)} value='jedi'/>
+
+          <label htmlFor="padawan">Padawan</label>
+          <input id="padawan" name="niveau" type="radio" onChange={event => setSearchLevel(event.target.value)} value='padawan'/>
+
+          <label htmlFor="maitre">Maitre</label>
+          <input id="maitre" name="niveau" type="radio" onChange={event => setSearchLevel(event.target.value)} value='maitre'/>
+        </div>
 
         <label htmlFor="searchPersons">Search by number of persons (between {initialRange[0]} and {initialRange[1]})</label>
         <input type="range" name="searchPersons" min={initialRange[0]} max={initialRange[1]} value = {searchPersons} onChange={event => setSearchPersons(event.target.value)}/> 
