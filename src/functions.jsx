@@ -5,3 +5,7 @@ export const get_min_max = (data) => {
   const max = Math.max.apply(Math, numberOfPersons);
   return {min, max}
 }
+
+export const normalize = (formData) => {
+  return formData.trim().toLowerCase()
+}

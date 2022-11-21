@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
-import {get_min_max} from '../getData'
+import {get_min_max, normalize} from '../functions'
 import RecipeComp from '../components/RecipeComp'
 import { Link, useNavigate } from "react-router-dom";
 import './Pages.css';
@@ -43,56 +43,8 @@ const handleOnSubmit = (e) => {
 
 
 
-  // searchTitle && filterArr.push('searchTitle')
-  
-  // console.log(filterArr)
 
-  //const filteredResult = filterByTitle(data)
-  //searchTitle &&  filteredResult.concat(data.filter(item => {return item.titre.includes(searchTitle)}))
-  // if (searchTitle) {
-    
-  //   title = data.filter(item => {return item.titre.includes(searchTitle)})
-  //   //return title
-  // }
-
-  // const title = [
-  //   ...(searchTitle ? data.filter(item => {return item.titre.includes(searchTitle)}) : []) 
-  // ]
-
-  // const level = [
-  //   ...(searchLevel ? data.filter(item => {return item.niveau.includes(searchLevel)}) : [])
-  // ]
-
-  // const persons = [
-  //   ...(searchPersons ? data.filter(item => {return item.personnes === parseInt(searchPersons)}) : [])
-  // ]
-
-  // console.log("****************** DATA", data, title, level)
-
-  // const filteredResult = [...title, ...level, ...persons]
-
-  // const uniq = [...new Set(filteredResult)];
-  // console.log("unique", uniq)
-
-
- 
-//   const filteredResult = data
-//     // .filter(item => {
-//     //   console.log("1", searchTitle, item.titre.includes(searchTitle))
-//     //   return item.titre.includes(searchTitle)})
-//     .filter(item => {
-//       console.log("2", searchLevel, item.niveau.includes(searchLevel))
-//       return item.niveau.includes(searchLevel)})
-//     // .filter(item => {
-//     //   console.log("3 search persons", searchPersons)
-//     //   return item.personnes === parseInt(searchPersons)})
-//     // .filter(item => {return item.tempsPreparation === parseInt(searchTime)})
-const normalize = (formData) => {
-  return formData.trim().toLowerCase()
-}
-
-
-  const filterByTitle = ((data, searchTitle) => {
+const filterByTitle = ((data, searchTitle) => {
     const title = normalize(searchTitle)
     const filtered = data.filter(item => { return item.titre.toLowerCase().includes(title)})
     return filtered
@@ -105,116 +57,52 @@ const filterByLevel = ((data, searchLevel) => {
 });
 
 const filterByPersons = ((data, searchPersons) => {
+  console.log("searchPersons", searchPersons, typeof searchPersons)
   const filtered = data.filter(item => {return item.personnes === parseInt(searchPersons)})
   return filtered
 });
 
 const filterByTime = ((data, searchTime) => {
-  const filtered = data.filter(item => {return item.tempsPreparation === parseInt(searchTime)})
-  return filtered
+  if (searchTime){
+    const filtered = data.filter(item => {return item.tempsPreparation === parseInt(searchTime)})
+    return filtered
+  }
+  return
 });
 
-
+//Create an array of used filters
 const filters = []
-
 searchTitle && filters.push({"func": filterByTitle, "val": searchTitle})
 searchLevel && filters.push({"func": filterByLevel, "val": searchLevel})
-searchTitle && filters.push({"func": filterByPersons, "val": searchPersons})
-searchLevel && filters.push({"func": filterByTime, "val": searchTime})
+searchPersons && filters.push({"func": filterByPersons, "val": searchPersons})
+searchTime && filters.push({"func": filterByTime, "val": searchTime})
 
 console.log(filters)
 
-
-if (searchTitle) {
-  console.log("searchTitle", searchTitle)
-  let result = filterByTitle(data, searchTitle)
-  console.log("****", result)
-  setData(result)
-}
-
-if (searchLevel) {
-  console.log("searchLevel", searchLevel)
-  let result = filterByTitle(data, searchTitle)
-  console.log("****", result)
-  setData(result)
-}
-
-console.log("DATA", data)
-
-// const filterByTitle = ((data) => {
-//   searchTitle = "Dustcrepe"
-//   data.filter(item => {return item.titre.includes(searchTitle)})
-// });
-
-// let filtered = []
-// if (searchTitle) {
-//   const title = filterByTitle(data, "Dustcrepe")
-//   console.log("title", title)
-//   const temp = filtered.concat(title)
-//   return temp
-// }
-
-// console.log("filtered", temp)
-
-//const filters = [filterByTitle, filterByLevel, filterByPersons]
-
-// let result = []
-//   filters.forEach((filter) => {
-//     let filterFunc = filter["func"]
-//     let filterParam = filter["val"]
-//     if (result.length > 0 ) {
-//       let temp = filterFunc(result, filterParam)
-//       console.log("SEARCH IN RESULT", temp)
-//       if (temp.length == 0 ) {
-//         result = []
-//       }
-     
-//     }
-//     else {
-//       let temp = filterFunc(data, filterParam)
-//       console.log("SEARCH IN ALL", temp)
-//       result = [...result, ...temp]
-//       return
-//     }
-//     // let temp = filterFunc(data, filterParam)
-//     // console.log("temp", temp)
-//     // if (temp.length == 0) {
-//     //   console.log("stop")
-//     //   return
-//     // }
-//     // else {
-//     //   let temp = filterFunc(result, filterParam)
-//     //   result = [...result, ...temp]
-//     //   console.log("result", result)
-//     // }
-    
-//     // result = []
-//   })
-
-    //result = [...new Set([...result, ...temp])]
-    
-    
+//Apply filters on data copy 
+  let copy = [...data]
+  let result
+  filters.forEach(filter => {
+    console.log("filter", filter)
+    let filterFunc = filter["func"]
+    let filterParam = filter["val"]
+    console.log("copy", copy)
+    result = filterFunc(copy, filterParam)
+    //console.log("result", result)
+    if( result.length > 0) {
+      copy = result
+    } else {
+      return result 
+    }
+  })
 
 
-
-// console.log("res", result)
-
-// setDisplay(result)
-
-
-// const filteredData = filters.map(filter => {
-//   return data.reduce(filter);
-// })
-
-
-
-
-  // setDisplay(filteredResult);
-  // console.log("$$$$$", filteredResult)
-  // setSearchTitle('');
-  // setSearchLevel('');
-  // setSearchPersons('')
-  // setSearchTime('')
+console.log("res", result)
+setDisplay(result)
+  setSearchTitle('');
+  setSearchLevel('');
+  setSearchPersons('')
+  setSearchTime('')
 }
 
 
